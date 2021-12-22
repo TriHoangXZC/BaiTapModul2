@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class HumanManager {
-    private ArrayList<Human> humanArrayList;
-    private Scanner scanner = new Scanner(System.in);
+    ArrayList<Human> humanArrayList;
+    Scanner scanner = new Scanner(System.in);
 
     public HumanManager() {
         this.humanArrayList = new ArrayList<>();
@@ -18,7 +18,6 @@ public class HumanManager {
     }
 
     public Human creatHuman(Scanner scanner) {
-        scanner.nextLine();
         System.out.println("Nhập tên: ");
         String name = scanner.nextLine();
         System.out.println("Nhập tuổi: ");
@@ -32,7 +31,7 @@ public class HumanManager {
         return new Human(name, age, gender, address);
     }
 
-    public void addHuman(Human human){
+    public void addHuman(Human human) {
         humanArrayList.add(human);
     }
 
@@ -56,7 +55,7 @@ public class HumanManager {
         return human;
     }
 
-    public ArrayList<Human> displayHumanUnder20Age() {
+    public ArrayList<Human> displayHumanByAgeUnder20() {
         ArrayList<Human> human = new ArrayList<>();
         for (Human h : humanArrayList) {
             if (h.getAge() < 20) {
@@ -71,6 +70,7 @@ public class HumanManager {
         for (Human h : humanArrayList) {
             if (h.getName().equals(name)) {
                 human = h;
+                break;
             }
         }
         humanArrayList.remove(human);
@@ -80,12 +80,13 @@ public class HumanManager {
     public Human editHumanByName(String name) {
         Human humanupdate = null;
         for (Human human : humanArrayList) {
-            if(human.getName().equals(name)){
+            if (human.getName().equals(name)) {
                 humanupdate = human;
+                break;
             }
         }
-        if(humanupdate != null){
-            scanner.nextLine();
+        if (humanupdate != null) {
+            int index = humanArrayList.indexOf(humanupdate);
             System.out.println("Nhập tên mới: ");
             String name1 = scanner.nextLine();
             humanupdate.setName(name1);
@@ -99,9 +100,18 @@ public class HumanManager {
             System.out.println("Nhập địa chỉ mới: ");
             String address = scanner.nextLine();
             humanupdate.setAddress(address);
-            return humanupdate;
+            humanArrayList.set(index, humanupdate);
         }
-        return null;
+        return humanupdate;
     }
 
+    public ArrayList<Human> displayAllHumanByName(String name) {
+        ArrayList<Human> human = new ArrayList<>();
+        for (Human h : humanArrayList) {
+            if (h.getName().equals(name)) {
+                human.add(h);
+            }
+        }
+        return human;
+    }
 }

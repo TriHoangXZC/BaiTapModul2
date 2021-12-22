@@ -21,6 +21,7 @@ public class Main {
             System.out.println("0. Exit");
             System.out.println("Nhập lựa chọn của bạn: ");
             choice = scanner.nextInt();
+            scanner.nextLine();
             switch (choice) {
                 case 1:
                     humanManager.displayAllHuman();
@@ -32,7 +33,7 @@ public class Main {
                     System.out.println(humanManager.displayHumanListGenderWoman());
                     break;
                 case 4:
-                    System.out.println(humanManager.displayHumanUnder20Age());
+                    System.out.println(humanManager.displayHumanByAgeUnder20());
                     break;
                 case 5:
                     Human human = humanManager.creatHuman(scanner);
@@ -51,6 +52,7 @@ public class Main {
                 case 8:
                     System.out.println("Nhập tên muốn hiển thị tất cả: ");
                     String nameDisplayAll = scanner.nextLine();
+                    System.out.println(humanManager.displayAllHumanByName(nameDisplayAll));
                     break;
             }
         } while (choice != 0);
