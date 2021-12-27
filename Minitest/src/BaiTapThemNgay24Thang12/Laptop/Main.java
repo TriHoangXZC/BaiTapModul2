@@ -1,5 +1,7 @@
 package BaiTapThemNgay24Thang12.Laptop;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +10,7 @@ public class Main {
         LaptopManager laptopManager = new LaptopManager();
 
         int choice;
-        do{
+        do {
             System.out.println("Menu");
             System.out.println("1. Hiển thị tất cả sản phẩm: ");
             System.out.println("2. Thêm laptop mới: ");
@@ -18,6 +20,8 @@ public class Main {
             System.out.println("6. Tìm kiếm sản phẩm theo khoảng giá: ");
             System.out.println("7. Tìm kiếm sản phẩm theo hãng: ");
             System.out.println("8. Tìm kiếm sản phẩm theo màu sắc: ");
+            System.out.println("9. Viết file chứa tên sản phẩm: ");
+            System.out.println("10. Đọc file chứa tên sản phẩm: ");
             System.out.println("0. Exit");
             System.out.println("Nhập lựa chọn của bạn:");
             choice = scanner.nextInt();
@@ -27,14 +31,23 @@ public class Main {
                     laptopManager.displayAllLaptopList();
                     break;
                 case 2:
-                    Laptop laptop = laptopManager.creatLaptop();
-                    laptopManager.addLaptop(laptop);
+                    try {
+                        Laptop laptop = laptopManager.creatLaptop();
+                        laptopManager.addLaptop(laptop);
+                    } catch (Exception e) {
+                        System.out.println("Lỗi!!! Vui lòng nhập lại");
+                    }
                     break;
                 case 3:
-                    System.out.println("Nhập id sản phẩm muốn sửa: ");
-                    int editID = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println(laptopManager.editLaptopById(editID));
+                    try {
+                        System.out.println("Nhập id sản phẩm muốn sửa: ");
+                        int editID = scanner.nextInt();
+                        scanner.nextLine();
+                        Laptop laptopEdit = laptopManager.editLaptopById(editID);
+                        System.out.println(laptopEdit);
+                    } catch (Exception e) {
+                        System.out.println("Lỗi!!! Vui lòng nhập lại");
+                    }
                     break;
                 case 4:
                     System.out.println("Nhập id sản phẩm muốn xóa: ");
@@ -53,7 +66,7 @@ public class Main {
                     System.out.println("Nhập giá max: ");
                     double maxPrice = scanner.nextDouble();
                     scanner.nextLine();
-                    System.out.println(laptopManager.searchLaptopListByRangePrice(minPrice,maxPrice));
+                    System.out.println(laptopManager.searchLaptopListByRangePrice(minPrice, maxPrice));
                     break;
                 case 7:
                     System.out.println("Nhập tên hãng muốn tìm kiếm: ");
@@ -64,6 +77,23 @@ public class Main {
                     System.out.println("Nhập màu sắc muốn tìm kiếm: ");
                     String color = scanner.nextLine();
                     System.out.println(laptopManager.searchLaptopListByColor(color));
+                    break;
+                case 9:
+                    try {
+                        ArrayList<String> strings = laptopManager.listBrand();
+                        laptopManager.writeBrand(strings, "src/BaiTapThemNgay24Thang12/Laptop/brand.txt");
+                        System.out.println("Write file successfully!");
+                    } catch (IOException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
+                case 10:
+                    try {
+                        System.out.println("Read file successfully!");
+                        laptopManager.readBrand("src/BaiTapThemNgay24Thang12/Laptop/brand.txt");
+                    } catch (IOException e) {
+                        System.err.println(e.getMessage());
+                    }
                     break;
             }
         } while (choice != 0);

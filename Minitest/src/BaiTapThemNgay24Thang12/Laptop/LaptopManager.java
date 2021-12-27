@@ -1,5 +1,6 @@
 package BaiTapThemNgay24Thang12.Laptop;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -67,7 +68,9 @@ public class LaptopManager {
                 laptop = l;
             }
         }
-        laptopArrayList.remove(laptop);
+        if (laptop != null) {
+            laptopArrayList.remove(laptop);
+        }
         return laptop;
     }
 
@@ -109,5 +112,29 @@ public class LaptopManager {
             }
         }
         return laptops;
+    }
+
+    public ArrayList<String> listBrand() {
+        ArrayList<String> strings = new ArrayList<>();
+        for (Laptop laptop : laptopArrayList) {
+            strings.add(laptop.getBrand());
+        }
+        return strings;
+    }
+
+    public void writeBrand(ArrayList<String> brandList, String pathName) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathName));
+        for (String string : brandList) {
+            bufferedWriter.write(string + "\n");
+        }
+        bufferedWriter.close();
+    }
+
+    public void readBrand(String pathName) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(pathName));
+        String line;
+        while((line = bufferedReader.readLine()) != null) {
+            System.out.println(line);
+        }
     }
 }
