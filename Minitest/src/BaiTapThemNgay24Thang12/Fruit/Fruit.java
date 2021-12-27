@@ -1,7 +1,6 @@
 package BaiTapThemNgay24Thang12.Fruit;
 
 public class Fruit {
-    private String kind;
     private double weight;
     private String taste;
     private String color;
@@ -10,21 +9,13 @@ public class Fruit {
     public Fruit() {
     }
 
-    public Fruit(String kind, double weight, String taste, String color, double price) {
-        this.kind = kind;
+    public Fruit(double weight, String taste, String color, double price) {
         this.weight = weight;
         this.taste = taste;
         this.color = color;
         this.price = price;
     }
 
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
 
     public double getWeight() {
         return weight;

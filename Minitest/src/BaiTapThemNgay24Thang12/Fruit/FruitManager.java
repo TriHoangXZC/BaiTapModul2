@@ -1,6 +1,10 @@
 package BaiTapThemNgay24Thang12.Fruit;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class FruitManager {
@@ -11,9 +15,7 @@ public class FruitManager {
         this.fruitArrayList = new ArrayList<>();
     }
 
-    public Fruit creatFruit() {
-        System.out.println("Nhập loại quả: ");
-        String kind = scanner.nextLine();
+    public Fruit creatFruit(int choice) {
         System.out.println("Nhập cân nặng: ");
         double weight = scanner.nextDouble();
         scanner.nextLine();
@@ -24,11 +26,17 @@ public class FruitManager {
         System.out.println("Nhập giá: ");
         double price = scanner.nextDouble();
         scanner.nextLine();
-        return new Fruit(kind, weight, taste, color, price);
-
+        if (choice == 1) {
+            return new Apple(weight, taste, color, price);
+        } else if (choice == 2) {
+            return new Banana(weight, taste, color, price);
+        } else if (choice == 3) {
+            return new Lemon(weight, taste, color, price);
+        }
+        return null;
     }
 
-    public void addFruit(Fruit fruit){
+    public void addFruit(Fruit fruit) {
         fruitArrayList.add(fruit);
     }
 
@@ -38,27 +46,41 @@ public class FruitManager {
         }
     }
 
-    public ArrayList<Fruit> displayByKind(String kind) {
-        ArrayList<Fruit> fruits = new ArrayList<>();
+    public void displayAppleList() {
         for (Fruit fruit : fruitArrayList) {
-            if (fruit.getKind().equals(kind)) {
-                fruits.add(fruit);
+            if (fruit instanceof Apple) {
+                System.out.println(fruit);
             }
         }
-        return fruits;
+    }
+
+    public void displayBananaList() {
+        for (Fruit fruit : fruitArrayList) {
+            if (fruit instanceof Banana) {
+                System.out.println(fruit);
+            }
+        }
+    }
+
+    public void displayLemonList() {
+        for (Fruit fruit : fruitArrayList) {
+            if (fruit instanceof Lemon) {
+                System.out.println(fruit);
+            }
+        }
     }
 
     public ArrayList<Fruit> displayMaxPriceFruit() {
         ArrayList<Fruit> fruits = new ArrayList<>();
         double maxPrice = fruitArrayList.get(0).getPrice();
-        for (Fruit f : fruitArrayList) {
-            if (maxPrice < f.getPrice()) {
-                maxPrice = f.getPrice();
+        for (Fruit fruit : fruitArrayList) {
+            if (maxPrice < fruit.getPrice()) {
+                maxPrice = fruit.getPrice();
             }
         }
-        for (Fruit f : fruitArrayList) {
-            if (maxPrice == f.getPrice()) {
-                fruits.add(f);
+        for (Fruit fruit : fruitArrayList) {
+            if (maxPrice == fruit.getPrice()) {
+                fruits.add(fruit);
             }
         }
         return fruits;
@@ -67,27 +89,55 @@ public class FruitManager {
     public ArrayList<Fruit> displayMinPriceFruit() {
         ArrayList<Fruit> fruits = new ArrayList<>();
         double minPrice = fruitArrayList.get(0).getPrice();
-        for (Fruit f : fruitArrayList) {
-            if (minPrice > f.getPrice()) {
-                minPrice = f.getPrice();
+        for (Fruit fruit : fruitArrayList) {
+            if (minPrice > fruit.getPrice()) {
+                minPrice = fruit.getPrice();
             }
         }
-        for (Fruit f : fruitArrayList) {
-            if (minPrice == f.getPrice()) {
-                fruits.add(f);
+        for (Fruit fruit : fruitArrayList) {
+            if (minPrice == fruit.getPrice()) {
+                fruits.add(fruit);
             }
         }
         return fruits;
     }
 
-    public ArrayList<Fruit> deleteByKind(String kind){
+    public ArrayList<Fruit> deleteByPrice(double price) {
         ArrayList<Fruit> fruits = new ArrayList<>();
         for (Fruit fruit : fruitArrayList) {
-            if (fruit.getKind().equals(kind)) {
+            if (fruit.getPrice() == price) {
                 fruits.add(fruit);
             }
         }
         fruitArrayList.removeAll(fruits);
         return fruits;
+    }
+
+    public void exportCsv() {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(String.format("src/BaiTapThemNgay24Thang12/Fruit/test_%s.csv", new Date().getTime())))) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Weight,");
+            sb.append("Taste,");
+            sb.append("Color,");
+            sb.append("Price");
+            sb.append('\n');
+
+            if (fruitArrayList.size() > 0) {
+                for (Fruit fruit : fruitArrayList) {
+                    sb.append(fruit.getWeight());
+                    sb.append(',');
+                    sb.append(fruit.getTaste());
+                    sb.append(',');
+                    sb.append(fruit.getColor());
+                    sb.append(',');
+                    sb.append(fruit.getPrice());
+                    sb.append('\n');
+                }
+            }
+            bufferedWriter.write(sb.toString());
+            System.out.println("Write successfully");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

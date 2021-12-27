@@ -4,9 +4,12 @@ public class Apple extends Fruit {
     public Apple() {
     }
 
-    public Apple(String kind, double weight, String taste, String color, double price) {
-        super(kind, weight, taste, color, price);
+    public Apple(double weight, String taste, String color, double price) {
+        super(weight, taste, color, price);
     }
 
-
+    @Override
+    public String toString() {
+        return "Apple: " + super.toString();
+    }
 }
